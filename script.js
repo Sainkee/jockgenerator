@@ -1,4 +1,5 @@
 let btn = document.querySelector(".btn");
+let loader = document.querySelector(".loader");
 let jocks = document.querySelector(".jocks");
 let limit = document.querySelector("input[type='number']");
 console.log(limit);
@@ -8,6 +9,8 @@ let key = "dy1B/qwjO373ax5oNT2nCg==gGDsPqpVT2UDHvJO";
 console.log(limit.value);
 
 function data() {
+  jocks.innerHTML = "";
+  loader.style.display = "block";
   let url = `https://api.api-ninjas.com/v1/dadjokes?limit=${limit.value}`;
   let jock = fetch(url, {
     headers: { "X-Api-Key": key },
@@ -18,12 +21,14 @@ function data() {
       return data.json();
     })
     .then((data) => {
-      jocks.innerHTML = "";
+      loader.style.display = "none";
       data.forEach((element) => {
         let p = document.createElement("p");
         p.innerText = element.joke;
         jocks.appendChild(p);
       });
+
+      limit.value = "";
     });
 }
 
